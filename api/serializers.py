@@ -33,5 +33,5 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Account
-		fields = ['username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
+		fields = ['id','username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1

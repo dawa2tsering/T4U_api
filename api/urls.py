@@ -17,6 +17,6 @@ urlpatterns = [
     path('api/refresh-token/', TokenRefreshView.as_view(), name='refresh-token'),
 
     path('api/register/usermodel/',UserModelListCreate.as_view(), name='register-usermodel'),
-    path('api/listusermodel/<int:id>/', UserModelRetreiveUpdateDestroy.as_view(), name='list-usermodel')
+    path('api/list/usermodel/<int:id>/', UserModelRetreiveUpdateDestroy.as_view(), name='list-usermodel')
 
 ]

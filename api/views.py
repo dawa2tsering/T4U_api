@@ -14,6 +14,7 @@ from api.serializers import RegisterSerializer, UserModelSerializer
 import uuid
 # Create your views here.
 
+#registerthroughapi
 class RegistrationAPIView(generics.GenericAPIView):
 	serializer_class = RegisterSerializer
 
@@ -30,11 +31,14 @@ class RegistrationAPIView(generics.GenericAPIView):
 
 
 
+#list create api for UserModel
 class UserModelListCreate(generics.ListCreateAPIView):
 	serializer_class = UserModelSerializer
 	queryset = Account.objects.all()
 
 
+
+#to delete,update, retrieve update for user model
 class UserModelRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = UserModelSerializer
 	queryset = Account.objects.all()

@@ -138,11 +138,15 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODELS = 'accounts.Account'
 
+
+#media is used for images
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
 
+
+#adding delay for token or expire 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
