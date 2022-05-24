@@ -23,15 +23,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 		if User.objects.filter(username=username).exists():
 			raise serializers.ValidationError({'username':{'Username already exists'}})
 
-		return super().valiate(args)
+		return super().validate(args)
 
 	def create(self, validated_data):
-		return User.objects.create_user(**validate_data)
+		return User.objects.create_user(**validated_data)
 
 
 #usermodel Serializer
 class UserModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserModel
-		fields = ['username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_data']
+		fields = ['username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1
