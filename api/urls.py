@@ -11,6 +11,8 @@ from .import views
 #custom url
 app_name = 'api'
 
+
+#url for api
 urlpatterns = [
 	path('api/register/', RegistrationAPIView.as_view(), name='auth-register'),
     path('api/login/', TokenObtainPairView.as_view(), name='login'),
