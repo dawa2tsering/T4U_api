@@ -16,6 +16,7 @@ USER_TYPE = (
 		('Player','Player')
 	)
 
+#creating the model of user and extending the user model which includes varieties of attribute based on user model
 class Account(User):
 	#username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	#password = models.CharField(max_length=100)
