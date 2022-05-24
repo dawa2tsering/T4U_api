@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, User
+
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -15,12 +16,12 @@ USER_TYPE = (
 		('Player','Player')
 	)
 
-class UserModel(models.Model):
-	username = models.OneToOneField(User, on_delete=models.CASCADE)
-	password = models.CharField(max_length=100)
+class Account(User):
+	#username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	#password = models.CharField(max_length=100)
 	user_type = models.CharField(max_length=100, choices=USER_TYPE)
 	name = models.CharField(max_length=100)
-	email = models.EmailField()
+	#email = models.EmailField()
 	phone_no = models.PositiveIntegerField('Phone Number')
 	photo = models.ImageField(upload_to='player/image', null=True, blank=True)
 	level = models.CharField(max_length=100, null=True, blank=True)
@@ -30,7 +31,7 @@ class UserModel(models.Model):
 
 	class Meta:
 		ordering = ('username',)
-		verbose_name_plural = 'Guests'
+		verbose_name_plural = 'Accounts'
 
 	def __str__(self):
 		return "{} : {}".format(self.username, self.name)

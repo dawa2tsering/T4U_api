@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import UserModel
+from accounts.models import Account
 
 from django.contrib.auth.models import User
 
@@ -32,6 +32,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 #usermodel Serializer
 class UserModelSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = UserModel
+		model = Account
 		fields = ['username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1

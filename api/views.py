@@ -7,7 +7,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import serializers
 
-from accounts.models import UserModel
+from accounts.models import Account
 
 from api.serializers import RegisterSerializer, UserModelSerializer
 
@@ -32,10 +32,10 @@ class RegistrationAPIView(generics.GenericAPIView):
 
 class UserModelListCreate(generics.ListCreateAPIView):
 	serializer_class = UserModelSerializer
-	queryset = UserModel.objects.all()
+	queryset = Account.objects.all()
 
 
 class UserModelRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = UserModelSerializer
-	queryset = UserModel.objects.all()
+	queryset = Account.objects.all()
 	lookup_field = 'id'
