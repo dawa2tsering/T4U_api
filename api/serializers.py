@@ -4,7 +4,7 @@ from accounts.models import Account, Sponsor, Partner, AddTournament
 from django.contrib.auth.models import User
 
 
-#register serializers for User
+#register serializers for User using serializers
 class RegisterSerializer(serializers.ModelSerializer):
 	email = serializers.CharField(max_length=100)
 	username = serializers.CharField(max_length=100)
@@ -62,6 +62,7 @@ class SponsorSerializer(serializers.ModelSerializer):
 
 #Partner Serializer
 class PartnerSerializer(serializers.ModelSerializer):
+	#using nested serializers 
 	tournament_partners = AddTournamentSerializer(many=True)
 	class Meta:
 		model = Partner

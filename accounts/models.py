@@ -79,6 +79,7 @@ class AddTournament(models.Model):
 	class Meta:
 		verbose_name_plural = 'AddTournaments'
 
+	#using dunder method or magic method or special method
 	def __str__(self):
 		return "{}".format(self.tournament_name)
 
