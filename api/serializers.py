@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import Account
+from accounts.models import Account, Sponsor, Partner, AddTournament
 
 from django.contrib.auth.models import User
 
@@ -40,3 +40,30 @@ class UserModelSerializer(serializers.ModelSerializer):
 		depth = 1
 
 		#depth means how much the object will you want to fetch mostly commonly used is 1.It is basically used in nested serializers
+
+
+#add-tournament serializer
+class AddTournamentSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = AddTournament
+		fields = ['banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee','gym_name',
+				'street_address','city','state','zip_code','sponsor','partner']
+
+		depth = 1
+
+#sponsor Serializer
+class SponsorSerializer(serializers.ModelSerializer):
+	#using nested serializers
+	tournament_sponsors = AddTournamentSerializer(many=True)
+	class Meta:
+		model = Sponsor
+		fields = ['id','tournament_sponsors','photo']
+		depth = 1
+
+#Partner Serializer
+class PartnerSerializer(serializers.ModelSerializer):
+	tournament_partners = AddTournamentSerializer(many=True)
+	class Meta:
+		model = Partner
+		fields = ['id','tournament_partners','photo']
+		depth = 1
