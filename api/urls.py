@@ -4,7 +4,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import (RegistrationAPIView,UserModelListCreate, UserModelRetreiveUpdateDestroy, 
                     SponsorListCreate,SponsorRetreiveUpdateDestroy, PartnerListCreate,PartnerRetreiveUpdateDestroy,
-                    AddTournamentListCreate,AddTournamentUpdateRetreiveDestroy)
+                    TournamentListCreate,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
+                    PlayerParticipationUpdateRetreiveDestroy)
 from api.serializers import UserModelSerializer
 
 from .import views
@@ -25,8 +26,8 @@ urlpatterns = [
 
 
     #add-tournament api url
-    path('api/listcreate/addtournament/',AddTournamentListCreate.as_view(),name='tournament-create'),
-    path('api/update/tournament/<int:id>/',AddTournamentUpdateRetreiveDestroy.as_view(), name='tournament-update'),
+    path('api/listcreate/tournament/',TournamentListCreate.as_view(),name='tournament-create'),
+    path('api/update/tournament/<int:id>/',TournamentUpdateRetreiveDestroy.as_view(), name='tournament-update'),
 
     #sponsor api url
     path('api/listcreate/sponsor/',SponsorListCreate.as_view(), name='sponsors-create'),
@@ -35,7 +36,12 @@ urlpatterns = [
 
     #partner api url
     path('api/listcreate/partner/', PartnerListCreate.as_view(), name='partners-create'),
-    path('api/update/partner/<int:id>/', PartnerRetreiveUpdateDestroy.as_view(), name='partners-update')
+    path('api/update/partner/<int:id>/', PartnerRetreiveUpdateDestroy.as_view(), name='partners-update'),
+
+    #playerparticipation api url
+
+    path('api/listcreate/playerparticipation/',PlayerParticipationListCreate.as_view(), name='playerparticipation-create'),
+    path('api/update/playerparticipation/<int:id>/', PlayerParticipationUpdateRetreiveDestroy.as_view(), name='playerparticipation-update')
 
 
 ]

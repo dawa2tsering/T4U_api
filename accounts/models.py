@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User
-
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -38,7 +36,7 @@ class Account(User):
 		return "{} : {}".format(self.username, self.name)
 
 
-#Sponsor class
+#creating the class sponsor
 class Sponsor(models.Model):
 	name = models.CharField(max_length=100)
 	photo = models.ImageField(upload_to='sponsors/photo')
@@ -49,7 +47,7 @@ class Sponsor(models.Model):
 	def __str__(self):
 		return "{}".format(self.name)
 
-#Partner class
+#creating the class sponsor
 class Partner(models.Model):
 	name = models.CharField(max_length=100)
 	photo = models.ImageField(upload_to='partners/photo')
@@ -60,8 +58,27 @@ class Partner(models.Model):
 	def __str__(self):
 		return "{}".format(self.name)
 
+#creating the class playerparticipation
+class PlayerParticipation(models.Model):
+	player_name = models.CharField(max_length=100, null=True, blank=True)
+	email = models.EmailField()
+	phone_no = models.PositiveIntegerField()
+	photo = models.ImageField(upload_to='playerparticipation/photo')
+	level = models.CharField(max_length=100)
+	address = models.CharField(max_length=100)
+	zip_code = models.PositiveIntegerField()
+	status = models.CharField(max_length=100)
+	date_created = models.DateTimeField(auto_now_add=True)	
+
+
+	class Meta:
+		verbose_name_plural = 'PlayerParticipations'
+
+	def __str__(self):
+		return "{}".format(self.player_name)
+
 #adding class Tournament
-class AddTournament(models.Model):
+class Tournament(models.Model):
 	banner_photo = models.ImageField(upload_to='banner/photo')
 	tournament_name = models.CharField(max_length=100, verbose_name='tournament_names', null=True, blank=True)
 	start_date = models.DateField(auto_now_add=False)
@@ -73,15 +90,17 @@ class AddTournament(models.Model):
 	city = models.CharField(max_length=100)
 	state = models.CharField(max_length=100)
 	zip_code = models.PositiveIntegerField()
-	sponsor = models.ForeignKey(Sponsor, related_name='tournament_sponsors', on_delete=models.CASCADE)
-	partner = models.ForeignKey(Partner, related_name='tournament_partners', on_delete=models.CASCADE)
+	sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='tournaments')
+	partner = models.ForeignKey(Partner, on_delete=models.CASCADE, related_name='tournament')
+
 
 	class Meta:
-		verbose_name_plural = 'AddTournaments'
+		verbose_name_plural = 'Tournaments'
 
 	#using dunder method or magic method or special method
 	def __str__(self):
 		return "{}".format(self.tournament_name)
+
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

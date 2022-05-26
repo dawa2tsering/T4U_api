@@ -7,9 +7,10 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import serializers
 
-from accounts.models import Account, Sponsor, Partner, AddTournament
+from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation
 
-from api.serializers import RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer, AddTournamentSerializer
+from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer, 
+							TournamentSerializer,PlayerParticipationSerializer)
 
 import uuid
 # Create your views here.
@@ -70,12 +71,23 @@ class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 
 #add-tournament crud api url
-class AddTournamentListCreate(generics.ListCreateAPIView):
-	serializer_class = AddTournamentSerializer
-	queryset = AddTournament.objects.all()
+class TournamentListCreate(generics.ListCreateAPIView):
+	serializer_class = TournamentSerializer
+	queryset = Tournament.objects.all()
 
 
-class AddTournamentUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
-	serializer_class = AddTournamentSerializer
-	queryset = AddTournament.objects.all()
+class TournamentUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
+	serializer_class = TournamentSerializer
+	queryset = Tournament.objects.all()
+	lookup_field = 'id'
+
+
+#playerparticipation crudapi url
+class PlayerParticipationListCreate(generics.ListCreateAPIView):
+	serializer_class = PlayerParticipationSerializer
+	queryset = PlayerParticipation.objects.all()
+
+class PlayerParticipationUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
+	serializer_class = PlayerParticipationSerializer
+	queryset = PlayerParticipation.objects.all()
 	lookup_field = 'id'
