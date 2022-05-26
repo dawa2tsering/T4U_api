@@ -39,15 +39,15 @@ class UserModelSerializer(serializers.ModelSerializer):
 		fields = ['id','username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1
 
-		#depth means how much the object will you want to fetch mostly commonly used is 1.It is basically used in nested serializers
+		#depth means how much the object will you want to fetch mostly commonly used is 1.
 
 
 #add-tournament serializer
 class TournamentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Tournament
-		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee','gym_name',
-				'street_address','city','state','zip_code','sponsor','partner']
+		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
+				'gym_name','street_address','city','state','zip_code','sponsor','partner','playerparticipation']
 		depth = 1
 		
 #sponsor Serializer
@@ -57,7 +57,7 @@ class SponsorSerializer(serializers.ModelSerializer):
 		fields = ['id','name','photo']
 		
 
-#Partner Serializer
+#partner Serializer
 class PartnerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Partner

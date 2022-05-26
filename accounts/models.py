@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -92,6 +92,7 @@ class Tournament(models.Model):
 	zip_code = models.PositiveIntegerField()
 	sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, related_name='tournaments')
 	partner = models.ForeignKey(Partner, on_delete=models.CASCADE, related_name='tournament')
+	playerparticipation = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, related_name='participation')
 
 
 	class Meta:
