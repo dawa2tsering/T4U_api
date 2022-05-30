@@ -42,13 +42,6 @@ class UserModelSerializer(serializers.ModelSerializer):
 		#depth means how much the object will you want to fetch mostly commonly used is 1.
 
 
-#add-tournament serializer
-class TournamentSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Tournament
-		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
-				'gym_name','street_address','city','state','zip_code']
-		
 #sponsor Serializer
 class SponsorSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -71,3 +64,16 @@ class PlayerParticipationSerializer(serializers.ModelSerializer):
 		model = PlayerParticipation
 		fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','tournament','date_created']
 		depth = 1
+
+
+#add-tournament serializer
+class TournamentSerializer(serializers.ModelSerializer):
+	#nested serializers
+	sponsors = SponsorSerializer(many=True, read_only=True)
+	partners = PartnerSerializer(many=True, read_only=True)
+	playerparticipations = PlayerParticipationSerializer(many=True, read_only=True) 
+	class Meta:
+		model = Tournament
+		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
+				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations']
+		
