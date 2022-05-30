@@ -47,25 +47,28 @@ class TournamentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Tournament
 		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
-				'gym_name','street_address','city','state','zip_code','sponsor','partner','playerparticipation']
+				'gym_name','street_address','city','state','zip_code']
 		depth = 1
 		
 #sponsor Serializer
 class SponsorSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Sponsor
-		fields = ['id','name','photo']
+		fields = ['id','name','photo','tournament']
+		depth = 1
 		
 
 #partner Serializer
 class PartnerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Partner
-		fields = ['id','name','photo']
+		fields = ['id','name','photo','tournament']
+		depth = 1
 		
 
 #playerparticipation serializer
 class PlayerParticipationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = PlayerParticipation
-		fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','date_created']
+		fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','tournament','date_created']
+		depth = 1
