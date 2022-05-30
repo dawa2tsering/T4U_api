@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from accounts.models import Account
+from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation
 
 from django.contrib.auth.models import User
 
 
-#register serializers for User
+#register serializers for User using serializers
 class RegisterSerializer(serializers.ModelSerializer):
 	email = serializers.CharField(max_length=100)
 	username = serializers.CharField(max_length=100)
@@ -39,4 +39,41 @@ class UserModelSerializer(serializers.ModelSerializer):
 		fields = ['id','username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1
 
-		#depth means how much the object will you want to fetch mostly commonly used is 1.It is basically used in nested serializers
+		#depth means how much the object will you want to fetch mostly commonly used is 1.
+
+
+#sponsor Serializer
+class SponsorSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Sponsor
+		fields = ['id','name','photo','tournament']
+		depth = 1
+		
+
+#partner Serializer
+class PartnerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Partner
+		fields = ['id','name','photo','tournament']
+		depth = 1
+		
+
+#playerparticipation serializer
+class PlayerParticipationSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = PlayerParticipation
+		fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','tournament','date_created']
+		depth = 1
+
+
+#add-tournament serializer
+class TournamentSerializer(serializers.ModelSerializer):
+	#nested serializers
+	sponsors = SponsorSerializer(many=True, read_only=True)
+	partners = PartnerSerializer(many=True, read_only=True)
+	playerparticipations = PlayerParticipationSerializer(many=True, read_only=True) 
+	class Meta:
+		model = Tournament
+		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
+				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations']
+		

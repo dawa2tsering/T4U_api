@@ -1,7 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
-
-
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -37,6 +35,77 @@ class Account(User):
 	def __str__(self):
 		return "{} : {}".format(self.username, self.name)
 
+
+#class tournament 
+class Tournament(models.Model):
+	banner_photo = models.ImageField(upload_to='banner/photo')
+	tournament_name = models.CharField(max_length=100, verbose_name='tournament_names', null=True, blank=True)
+	start_date = models.DateField(auto_now_add=False)
+	participation_deadline = models.DateField(auto_now_add=False)
+	created_date = models.DateTimeField(auto_now_add=True)
+	participation_fee = models.PositiveIntegerField()
+	gym_name = models.CharField(max_length=100)
+	street_address = models.CharField(max_length=100)
+	city = models.CharField(max_length=100)
+	state = models.CharField(max_length=100)
+	zip_code = models.PositiveIntegerField()
+
+
+	class Meta:
+		verbose_name_plural = 'Tournaments'
+
+	#using dunder method or magic method or special method
+	def __str__(self):
+		return "{}".format(self.tournament_name)
+
+
+
+
+#creating the class sponsor
+class Sponsor(models.Model):
+	name = models.CharField(max_length=100)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='sponsors')
+	photo = models.ImageField(upload_to='sponsors/photo')
+
+	class Meta:
+		verbose_name_plural = 'Sponsors'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+
+#creating the class sponsor
+class Partner(models.Model):
+	name = models.CharField(max_length=100)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='partners')
+	photo = models.ImageField(upload_to='partners/photo')
+
+	class Meta:
+		verbose_name_plural = 'Partners'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+
+#creating the class playerparticipation
+class PlayerParticipation(models.Model):
+	player_name = models.CharField(max_length=100, null=True, blank=True)
+	email = models.EmailField()
+	phone_no = models.PositiveIntegerField()
+	photo = models.ImageField(upload_to='playerparticipation/photo')
+	level = models.CharField(max_length=100)
+	address = models.CharField(max_length=100)
+	zip_code = models.PositiveIntegerField()
+	status = models.CharField(max_length=100)
+	date_created = models.DateTimeField(auto_now_add=True)	
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='playerparticipations')
+
+
+	class Meta:
+		verbose_name_plural = 'PlayerParticipations'
+
+	def __str__(self):
+		return "{}".format(self.player_name)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
