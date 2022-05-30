@@ -36,6 +36,7 @@ class Account(User):
 		return "{} : {}".format(self.username, self.name)
 
 
+#class tournament 
 class Tournament(models.Model):
 	banner_photo = models.ImageField(upload_to='banner/photo')
 	tournament_name = models.CharField(max_length=100, verbose_name='tournament_names', null=True, blank=True)
@@ -72,6 +73,7 @@ class Sponsor(models.Model):
 	def __str__(self):
 		return "{}".format(self.name)
 
+
 #creating the class sponsor
 class Partner(models.Model):
 	name = models.CharField(max_length=100)
@@ -83,6 +85,7 @@ class Partner(models.Model):
 
 	def __str__(self):
 		return "{}".format(self.name)
+
 
 #creating the class playerparticipation
 class PlayerParticipation(models.Model):
@@ -103,8 +106,6 @@ class PlayerParticipation(models.Model):
 
 	def __str__(self):
 		return "{}".format(self.player_name)
-
-#adding class Tournament
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
