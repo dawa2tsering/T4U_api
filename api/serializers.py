@@ -77,3 +77,4 @@ class TournamentSerializer(serializers.ModelSerializer):
 		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
 				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations']
 		
+		depth = 1

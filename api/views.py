@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation
 
-from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer, 
+from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer,
 							TournamentSerializer,PlayerParticipationSerializer)
 
 import uuid
@@ -34,6 +34,23 @@ class RegistrationAPIView(generics.GenericAPIView):
 		return Response({'Errors':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+#paginations
+class CustomPagination(PageNumberPagination):
+	page_size = 1
+	page_size_query_param = 'page_size'
+	max_page_size = 1000
+
+	def get_paginated_response(self, data):
+		return Response({
+				'links':{
+					'next':self.get_next_link(),
+					'previous':self.get_previous_link(),
+				},
+				'count':self.page.paginator.count,
+				'page_size':self.page_size,
+				'results':data
+			})
 
 #list create api for UserModel
 class UserModelListCreate(generics.ListCreateAPIView):
@@ -67,6 +84,7 @@ def save_user_profile(sender, instance, **kwargs):
 class SponsorListCreate(generics.ListCreateAPIView):
 	serializer_class = SponsorSerializer
 	queryset = Sponsor.objects.all()
+	pagination_class = CustomPagination
 
 class SponsorRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = SponsorSerializer
@@ -79,7 +97,7 @@ class SponsorRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class PartnerListCreate(generics.ListCreateAPIView):
 	serializer_class = PartnerSerializer
 	queryset = Partner.objects.all()
-
+	pagination_class = CustomPagination
 
 class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = PartnerSerializer
@@ -91,6 +109,7 @@ class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class TournamentListCreate(generics.ListCreateAPIView):
 	serializer_class = TournamentSerializer
 	queryset = Tournament.objects.all()
+	pagination_class = CustomPagination
 
 
 class TournamentUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -103,6 +122,7 @@ class TournamentUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
 class PlayerParticipationListCreate(generics.ListCreateAPIView):
 	serializer_class = PlayerParticipationSerializer
 	queryset = PlayerParticipation.objects.all()
+	pagination_class = CustomPagination
 
 class PlayerParticipationUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = PlayerParticipationSerializer
