@@ -36,6 +36,13 @@ class Account(User):
 		return "{} : {}".format(self.username, self.name)
 
 
+	def check_user_type_images(self):
+		try:
+			if self.user_type == 'Player':
+				return Response('You are permission to upload your images')
+		except PermissionDenied:
+			pass
+
 #class tournament 
 class Tournament(models.Model):
 	banner_photo = models.ImageField(upload_to='banner/photo')
