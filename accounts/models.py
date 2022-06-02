@@ -18,7 +18,7 @@ USER_TYPE = (
 class Account(User):
 	#username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	#password = models.CharField(max_length=100)
-	user_type = models.ChoiceField(choices=USER_TYPE)
+	user_type = models.CharField(max_length=100,choices=USER_TYPE)
 	name = models.CharField(max_length=100)
 	#email = models.EmailField()
 	phone_no = models.PositiveIntegerField('Phone Number')
