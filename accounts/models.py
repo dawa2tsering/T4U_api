@@ -43,6 +43,8 @@ class Account(User):
 		except PermissionDenied:
 			pass
 
+		
+
 #class tournament 
 class Tournament(models.Model):
 	banner_photo = models.ImageField(upload_to='banner/photo')
@@ -66,7 +68,47 @@ class Tournament(models.Model):
 		return "{}".format(self.tournament_name)
 
 
+class Team(models.Model):
+	name = models.CharField(max_length=100)
+	captain = models.CharField(max_length=100)
+	score = models.PositiveIntegerField(default=0)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
 
+
+	class Meta:
+		verbose_name_plural = 'Teams'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+class PlayerParticipation(models.Model):
+	player_name = models.CharField(max_length=100, null=True, blank=True)
+	email = models.EmailField()
+	phone_no = models.PositiveIntegerField()
+	photo = models.ImageField(upload_to='playerparticipation/photo')
+	level = models.CharField(max_length=100)
+	address = models.CharField(max_length=100)
+	zip_code = models.PositiveIntegerField()
+	status = models.CharField(max_length=100)
+	date_created = models.DateTimeField(auto_now_add=True)	
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='playerparticipations')
+
+
+	class Meta:
+		verbose_name_plural = 'PlayerParticipations'
+
+	def __str__(self):
+		return "{}".format(self.player_name)
+
+class TeamPlayer(models.Model):
+	team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='teamplayers')
+	playerparticipation = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, null=True, blank=True, related_name='teamplayerss')
+	
+	class Meta:
+		verbose_name_plural = 'TeamPlayers'
+
+	def __str__(self):
+		return "{}".format(self.team)
 
 #creating the class sponsor
 class Sponsor(models.Model):
@@ -95,24 +137,7 @@ class Partner(models.Model):
 
 
 #creating the class playerparticipation
-class PlayerParticipation(models.Model):
-	player_name = models.CharField(max_length=100, null=True, blank=True)
-	email = models.EmailField()
-	phone_no = models.PositiveIntegerField()
-	photo = models.ImageField(upload_to='playerparticipation/photo')
-	level = models.CharField(max_length=100)
-	address = models.CharField(max_length=100)
-	zip_code = models.PositiveIntegerField()
-	status = models.CharField(max_length=100)
-	date_created = models.DateTimeField(auto_now_add=True)	
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='playerparticipations')
 
-
-	class Meta:
-		verbose_name_plural = 'PlayerParticipations'
-
-	def __str__(self):
-		return "{}".format(self.player_name)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

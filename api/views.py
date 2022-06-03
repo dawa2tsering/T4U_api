@@ -11,10 +11,10 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 
-from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation
+from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer
 
 from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer,
-							TournamentSerializer,PlayerParticipationSerializer)
+							TournamentSerializer,PlayerParticipationSerializer, TeamSerializer, TeamPlayerSerializer)
 
 import uuid
 # Create your views here.
@@ -128,4 +128,26 @@ class PlayerParticipationListCreate(generics.ListCreateAPIView):
 class PlayerParticipationUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = PlayerParticipationSerializer
 	queryset = PlayerParticipation.objects.all()
+	lookup_field = 'id'
+
+
+#Team serializer
+class TeamListCreate(generics.ListCreateAPIView):
+	serializer_class = TeamSerializer
+	queryset = Team.objects.all()
+
+
+class TeamUpdateRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	serializer_class = TeamSerializer
+	queryset = Team.objects.all()
+	lookup_field = 'id'
+
+
+class TeamPlayerListCreate(generics.ListCreateAPIView):
+	serializer_class = TeamPlayerSerializer
+	queryset = TeamPlayer.objects.all()
+
+class TeamPlayerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	serializer_class = TeamPlayerSerializer
+	querysett = TeamPlayer.objects.all()
 	lookup_field = 'id'

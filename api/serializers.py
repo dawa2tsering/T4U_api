@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation
+from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, TeamPlayer,Team
 
 from django.contrib.auth.models import User
 
@@ -66,15 +66,38 @@ class PlayerParticipationSerializer(serializers.ModelSerializer):
 		depth = 1
 
 
-#add-tournament serializer
+#tournament serializer
+class TeamSerializer(serializers.ModelSerializer):
+	#using nested serializers
+	# teams = TournamentSerializer(many=True, read_only=True)
+	class Meta:
+		model = Team
+		fields = ['name','captain','score','tournament']
+		depth = 1
+
 class TournamentSerializer(serializers.ModelSerializer):
 	#nested serializers
 	sponsors = SponsorSerializer(many=True, read_only=True)
 	partners = PartnerSerializer(many=True, read_only=True)
-	playerparticipations = PlayerParticipationSerializer(many=True, read_only=True) 
+	playerparticipations = PlayerParticipationSerializer(many=True, read_only=True)
+	teams = TeamSerializer(many=True, read_only=True)
+
+	#we need to add team serailizer in this  seralizerss
 	class Meta:
 		model = Tournament
 		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
-				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations']
+				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations','teams']
 		
 		depth = 1
+
+#team seralizers
+
+#teamplayer seralizers
+class TeamPlayerSerializer(serializers.ModelSerializer):
+	# teamplayers = TeamSerializer(many=True, read_only=True)
+	# teamplayerss = PlayerParticipationSerializer(many=True, read_only=True)
+	class Meta:
+		model = TeamPlayer
+		fields = ['team','playerparticipation']
+		depth = 1
+

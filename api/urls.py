@@ -5,7 +5,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from api.views import (RegistrationAPIView,UserModelListCreate, UserModelRetreiveUpdateDestroy, 
                     SponsorListCreate,SponsorRetreiveUpdateDestroy, PartnerListCreate,PartnerRetreiveUpdateDestroy,
                     TournamentListCreate,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
-                    PlayerParticipationUpdateRetreiveDestroy)
+                    PlayerParticipationUpdateRetreiveDestroy,TeamListCreate,TeamUpdateRetreiveUpdateDestroy,
+                    TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy)
 from api.serializers import UserModelSerializer
 
 from .import views
@@ -41,7 +42,16 @@ urlpatterns = [
     #playerparticipation api url
 
     path('api/listcreate/playerparticipation/',PlayerParticipationListCreate.as_view(), name='playerparticipation-create'),
-    path('api/update/playerparticipation/<int:id>/', PlayerParticipationUpdateRetreiveDestroy.as_view(), name='playerparticipation-update')
+    path('api/update/playerparticipation/<int:id>/', PlayerParticipationUpdateRetreiveDestroy.as_view(), name='playerparticipation-update'),
+
+
+    #team api url
+    path('api/team/create/', TeamListCreate.as_view(), name='team-create'),
+    path('api/team/update/<int:id>/', TeamUpdateRetreiveUpdateDestroy.as_view(), name='team-update'),
+
+    #teamplayer api url
+    path('api/teamplayer/create/', TeamPlayerListCreate.as_view(), name='teamplayer-create'),
+    path('api/teamplayer/update/<int:id>/', TeamPlayerRetreiveUpdateDestroy.as_view(), name='teamplayer-update'),
 
 
 ]
