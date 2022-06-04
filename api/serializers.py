@@ -2,6 +2,7 @@ from rest_framework import serializers
 from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, TeamPlayer,Team
 
 from django.contrib.auth.models import User
+from drf_extra_fields.fields import Base64ImageField
 
 
 #register serializers for User using serializers
@@ -34,11 +35,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 #usermodel Serializer
 class UserModelSerializer(serializers.ModelSerializer):
+	photo = Base64ImageField()
 	class Meta:
 		model = Account
 		fields = ['id','username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1
 
+	def create(self, validated_data):
+		photo = validated_data.pop('photo')
+		data = validated_data.pop('data')
+		return Account.objects.create(data=data, photo=photo)
 		#depth means how much the object will you want to fetch mostly commonly used is 1.
 
 

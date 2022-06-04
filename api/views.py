@@ -66,19 +66,18 @@ class UserModelRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Account.objects.all()
 	lookup_field = 'id'
 
-# class PhotoList(APIView):
-# 	def post(self, request, format=None):
-# 		serializer = UserModelSerializer(data=request.data, files=request.FILES)
-# 		if serializer.is_valid():
-# 			serializers.save()
-# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-# 		else:
-# 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class PhotoList(APIView):
+	def post(self, request, format=None):
+		serializer = UserModelSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		else:
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-# 	instance.photo.save()
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+	instance.photo.save()
 
 
 #sponsor crud in api
