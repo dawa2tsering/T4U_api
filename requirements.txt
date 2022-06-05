@@ -2,7 +2,6 @@ asgiref==3.5.2
 Django==3.2.6
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.1.0
-drf-extra-fields==3.4.0
 Pillow==9.1.1
 PyJWT==2.4.0
 pytz==2022.1
