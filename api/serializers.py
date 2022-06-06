@@ -13,7 +13,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = User
-		fields = ('username','email','password')
+		fields = ('id','username','email','password')
 
 	def validate(self, args):
 		email = args.get('email',None)
@@ -35,17 +35,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 #usermodel Serializer
 class UserModelSerializer(serializers.ModelSerializer):
-	photo = Base64ImageField()
 	class Meta:
 		model = Account
 		fields = ['id','username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1
-
-	def create(self, validated_data):
-		photo = validated_data.pop('photo')
-		data = validated_data.pop('data')
-		return Account.objects.create(data=data, photo=photo)
-		#depth means how much the object will you want to fetch mostly commonly used is 1.
 
 
 #sponsor Serializer

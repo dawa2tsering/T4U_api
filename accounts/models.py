@@ -22,7 +22,7 @@ class Account(User):
 	name = models.CharField(max_length=100)
 	#email = models.EmailField()
 	phone_no = models.PositiveIntegerField('Phone Number')
-	photo = models.CharField(max_length=100)
+	photo = models.CharField(max_length=20000)
 	level = models.CharField(max_length=100, null=True, blank=True)
 	address = models.CharField(max_length=100, null=True, blank=True)
 	zip_code = models.PositiveIntegerField(null=True, blank=True)
@@ -47,7 +47,7 @@ class Account(User):
 
 #class tournament 
 class Tournament(models.Model):
-	banner_photo = models.CharField(max_length=100)
+	banner_photo = models.CharField(max_length=20000)
 	tournament_name = models.CharField(max_length=100, verbose_name='tournament_names', null=True, blank=True)
 	start_date = models.DateField(auto_now_add=False)
 	participation_deadline = models.DateField(auto_now_add=False)
@@ -85,7 +85,7 @@ class PlayerParticipation(models.Model):
 	player_name = models.CharField(max_length=100, null=True, blank=True)
 	email = models.EmailField()
 	phone_no = models.PositiveIntegerField()
-	photo = models.CharField(max_length=100)
+	photo = models.CharField(max_length=20000)
 	level = models.CharField(max_length=100)
 	address = models.CharField(max_length=100)
 	zip_code = models.PositiveIntegerField()
@@ -114,7 +114,7 @@ class TeamPlayer(models.Model):
 class Sponsor(models.Model):
 	name = models.CharField(max_length=100)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='sponsors')
-	photo = models.ImageField(upload_to='sponsors/photo')
+	photo = models.CharField(max_length=20000)
 
 	class Meta:
 		verbose_name_plural = 'Sponsors'
@@ -127,7 +127,7 @@ class Sponsor(models.Model):
 class Partner(models.Model):
 	name = models.CharField(max_length=100)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='partners')
-	photo = models.ImageField(upload_to='partners/photo')
+	photo = models.CharField(max_length=20000)
 
 	class Meta:
 		verbose_name_plural = 'Partners'

@@ -5,7 +5,6 @@
 pycache/
 settings.py
 db.sqlite3
-media
 migrations
 mailbox_attachments
 ### Vim ###
