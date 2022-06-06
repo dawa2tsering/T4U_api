@@ -5,7 +5,6 @@ from django.db.models.signals import post_save
 
 from rest_framework import generics
 from rest_framework import status
-from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework.views import APIView
