@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from api.views import (RegistrationAPIView,UserModelListCreate, UserModelRetreiveUpdateDestroy, 
                     SponsorListCreate,SponsorRetreiveUpdateDestroy, PartnerListCreate,PartnerRetreiveUpdateDestroy,
-                    TournamentListCreate,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
+                    TournamentListCreate,GetTournamentList,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
                     PlayerParticipationUpdateRetreiveDestroy,TeamListCreate,TeamUpdateRetreiveUpdateDestroy,
                     TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy)
 from api.serializers import UserModelSerializer
@@ -28,6 +28,7 @@ urlpatterns = [
 
     #add-tournament api url
     path('api/listcreate/tournament/',TournamentListCreate.as_view(),name='tournament-create'),
+    path('api/tournament/list',GetTournamentList.as_view(),name='tournament-get'),
     path('api/update/tournament/<int:id>/',TournamentUpdateRetreiveDestroy.as_view(), name='tournament-update'),
 
     #sponsor api url

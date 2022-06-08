@@ -13,7 +13,7 @@ from rest_framework.pagination import PageNumberPagination
 from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer
 
 from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer,
-							TournamentSerializer,PlayerParticipationSerializer, TeamSerializer, TeamPlayerSerializer)
+							TournamentSerializer,TournamentListSerializer,PlayerParticipationSerializer, TeamSerializer, TeamPlayerSerializer)
 
 import uuid
 # Create your views here.
@@ -95,6 +95,13 @@ class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 #add-tournament crud api url
 class TournamentListCreate(generics.ListCreateAPIView):
 	serializer_class = TournamentSerializer
+	queryset = Tournament.objects.all()
+	pagination_class = CustomPagination
+
+
+
+class GetTournamentList(generics.ListCreateAPIView):
+	serializer_class = TournamentListSerializer
 	queryset = Tournament.objects.all()
 	pagination_class = CustomPagination
 

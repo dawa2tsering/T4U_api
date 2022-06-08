@@ -89,6 +89,14 @@ class TournamentSerializer(serializers.ModelSerializer):
 		
 		depth = 1
 
+
+class TournamentListSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Tournament
+		fields = ['id','banner_photo','tournament_name','start_date','created_date','gym_name','street_address','city','state','zip_code',]
+		
+		depth = 1
+
 #team seralizers
 
 #teamplayer seralizers
