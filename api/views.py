@@ -71,7 +71,7 @@ class UserModelRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class SponsorListCreate(generics.ListCreateAPIView):
 	serializer_class = SponsorSerializer
 	queryset = Sponsor.objects.all()
-	pagination_class = CustomPagination
+	#pagination_class = CustomPagination
 
 class SponsorRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = SponsorSerializer
@@ -84,7 +84,7 @@ class SponsorRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 class PartnerListCreate(generics.ListCreateAPIView):
 	serializer_class = PartnerSerializer
 	queryset = Partner.objects.all()
-	pagination_class = CustomPagination
+	#pagination_class = CustomPagination
 
 class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = PartnerSerializer

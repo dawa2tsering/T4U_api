@@ -18,41 +18,50 @@ app_name = 'api'
 
 #url for api
 urlpatterns = [
+    #register user(Guest and player)
 	path('api/register/', RegistrationAPIView.as_view(), name='auth-register'),
     path('api/login/', TokenObtainPairView.as_view(), name='login'),
     path('api/refresh-token/', TokenRefreshView.as_view(), name='refresh-token'),
 
+
+    
+    #add and get registered user
     path('api/register/usermodel/',UserModelListCreate.as_view(), name='register-usermodel'),
+    #crud registered user by id
     path('api/list/usermodel/<int:id>/', UserModelRetreiveUpdateDestroy.as_view(), name='list-usermodel'),
 
 
-    #add-tournament api url
+    #add and get tournament api url for tournament detail
     path('api/listcreate/tournament/',TournamentListCreate.as_view(),name='tournament-create'),
+    #get-tournament list api url for tournament view
     path('api/tournament/list',GetTournamentList.as_view(),name='tournament-get'),
+    #crud tournament by id
     path('api/update/tournament/<int:id>/',TournamentUpdateRetreiveDestroy.as_view(), name='tournament-update'),
 
-    #sponsor api url
+    #add and get sponsor api url
     path('api/listcreate/sponsor/',SponsorListCreate.as_view(), name='sponsors-create'),
+    #crud sponsor by id
     path('api/update/sponsor/<int:id>/', SponsorRetreiveUpdateDestroy.as_view(), name='sponsors-update'),
 
 
-    #partner api url
+    #add and get partner api url
     path('api/listcreate/partner/', PartnerListCreate.as_view(), name='partners-create'),
+    #crud partner by id
     path('api/update/partner/<int:id>/', PartnerRetreiveUpdateDestroy.as_view(), name='partners-update'),
 
-    #playerparticipation api url
-
+    #add and get playerparticipation api url
     path('api/listcreate/playerparticipation/',PlayerParticipationListCreate.as_view(), name='playerparticipation-create'),
+    #crud playerparticipation by id
     path('api/update/playerparticipation/<int:id>/', PlayerParticipationUpdateRetreiveDestroy.as_view(), name='playerparticipation-update'),
 
 
-    #team api url
+    #add and get team api url
     path('api/team/create/', TeamListCreate.as_view(), name='team-create'),
+    #crud team by id
     path('api/team/update/<int:id>/', TeamUpdateRetreiveUpdateDestroy.as_view(), name='team-update'),
 
-    #teamplayer api url
+    #add and get teamplayer api url
     path('api/teamplayer/create/', TeamPlayerListCreate.as_view(), name='teamplayer-create'),
+    #crud teamplayer by id
     path('api/teamplayer/update/<int:id>/', TeamPlayerRetreiveUpdateDestroy.as_view(), name='teamplayer-update'),
-
-
 ]
