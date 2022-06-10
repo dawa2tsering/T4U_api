@@ -43,7 +43,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 #sponsor Serializer
 class SponsorSerializer(serializers.ModelSerializer):
-	tournament = serializers.PrimaryKeyRelatedField(source='tournament.id', queryset=Tournament.objects.all(), many=False)
+	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
 	class Meta:
 		model = Sponsor
 		fields = ['id','name','photo','tournament']
@@ -52,7 +52,7 @@ class SponsorSerializer(serializers.ModelSerializer):
 
 #partner Serializer
 class PartnerSerializer(serializers.ModelSerializer):
-	# tournament = serializers.PrimaryKeyRelatedField(source='tournament.id', queryset=Tournament.objects.all(), many=False)
+	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
 	class Meta:
 		model = Partner
 		fields = ('id','name','photo','tournament')
@@ -61,6 +61,7 @@ class PartnerSerializer(serializers.ModelSerializer):
 
 #playerparticipation serializer
 class PlayerParticipationSerializer(serializers.ModelSerializer):
+	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
 	class Meta:
 		model = PlayerParticipation
 		fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','tournament','date_created']
@@ -69,11 +70,10 @@ class PlayerParticipationSerializer(serializers.ModelSerializer):
 
 #tournament serializer
 class TeamSerializer(serializers.ModelSerializer):
-	#using nested serializers
-	# teams = TournamentSerializer(many=True, read_only=True)
+	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
 	class Meta:
 		model = Team
-		fields = ['name','captain','score','tournament']
+		fields = ['id','name','captain','score','tournament']
 		depth = 1
 
 class TournamentSerializer(serializers.ModelSerializer):
@@ -88,6 +88,14 @@ class TournamentSerializer(serializers.ModelSerializer):
 		model = Tournament
 		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
 				'gym_name','street_address','city','state','zip_code']
+		
+		depth = 1
+
+
+class TournamentListSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Tournament
+		fields = ['id','banner_photo','tournament_name','start_date','created_date','gym_name','street_address','city','state','zip_code',]
 		
 		depth = 1
 
