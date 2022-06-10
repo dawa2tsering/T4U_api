@@ -43,6 +43,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 #sponsor Serializer
 class SponsorSerializer(serializers.ModelSerializer):
+	tournament = serializers.PrimaryKeyRelatedField(source='tournament.id', queryset=Tournament.objects.all(), many=False)
 	class Meta:
 		model = Sponsor
 		fields = ['id','name','photo','tournament']
@@ -51,9 +52,10 @@ class SponsorSerializer(serializers.ModelSerializer):
 
 #partner Serializer
 class PartnerSerializer(serializers.ModelSerializer):
+	# tournament = serializers.PrimaryKeyRelatedField(source='tournament.id', queryset=Tournament.objects.all(), many=False)
 	class Meta:
 		model = Partner
-		fields = ['id','name','photo','tournament']
+		fields = ('id','name','photo','tournament')
 		depth = 1
 		
 
@@ -76,16 +78,16 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class TournamentSerializer(serializers.ModelSerializer):
 	#nested serializers
-	sponsors = SponsorSerializer(many=True, read_only=True)
-	partners = PartnerSerializer(many=True, read_only=True)
-	playerparticipations = PlayerParticipationSerializer(many=True, read_only=True)
-	teams = TeamSerializer(many=True, read_only=True)
+	# sponsors = SponsorSerializer(many=True, read_only=True)
+	# partners = PartnerSerializer(many=True, read_only=True)
+	# playerparticipations = PlayerParticipationSerializer(many=True, read_only=True)
+	# teams = TeamSerializer(many=True, read_only=True)
 
-	#we need to add team serailizer in this  seralizerss
+	#we need to add team serailizer in this  seralizers
 	class Meta:
 		model = Tournament
 		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
-				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations','teams']
+				'gym_name','street_address','city','state','zip_code']
 		
 		depth = 1
 
@@ -99,4 +101,6 @@ class TeamPlayerSerializer(serializers.ModelSerializer):
 		model = TeamPlayer
 		fields = ['team','playerparticipation']
 		depth = 1
+
+
 

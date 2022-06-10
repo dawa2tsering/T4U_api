@@ -113,8 +113,8 @@ class TeamPlayer(models.Model):
 #creating the class sponsor
 class Sponsor(models.Model):
 	name = models.CharField(max_length=100)
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='sponsors')
 	photo = models.CharField(max_length=20000)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='sponsors')
 
 	class Meta:
 		verbose_name_plural = 'Sponsors'
@@ -126,8 +126,8 @@ class Sponsor(models.Model):
 #creating the class sponsor
 class Partner(models.Model):
 	name = models.CharField(max_length=100)
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='partners')
 	photo = models.CharField(max_length=20000)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='partners')
 
 	class Meta:
 		verbose_name_plural = 'Partners'
