@@ -6,7 +6,7 @@ from api.views import (RegistrationAPIView,UserModelListCreate, UserModelRetreiv
                     SponsorListCreate,SponsorRetreiveUpdateDestroy, PartnerListCreate,PartnerRetreiveUpdateDestroy,
                     TournamentListCreate,GetTournamentList,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
                     PlayerParticipationUpdateRetreiveDestroy,TeamListCreate,TeamUpdateRetreiveUpdateDestroy,
-                    TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy)
+                    TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy,MatchListCreate,MatchRetrieveUpdateDestroy)
 from api.serializers import UserModelSerializer
 
 from .import views
@@ -64,4 +64,7 @@ urlpatterns = [
     path('api/teamplayer/create/', TeamPlayerListCreate.as_view(), name='teamplayer-create'),
     #crud teamplayer by id
     path('api/teamplayer/update/<int:id>/', TeamPlayerRetreiveUpdateDestroy.as_view(), name='teamplayer-update'),
+
+    path('api/match/create/',MatchListCreate.as_view(), name='match-create'),
+    path('api/match/update/<int:id>/', MatchRetrieveUpdateDestroy.as_view(), name='match-update'),
 ]

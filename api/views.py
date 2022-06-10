@@ -1,3 +1,4 @@
+from cgitb import lookup
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -10,10 +11,11 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 
-from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer
+from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer, Match
 
 from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer,
-							TournamentSerializer,TournamentListSerializer,PlayerParticipationSerializer, TeamSerializer, TeamPlayerSerializer)
+							TournamentSerializer,TournamentListSerializer,PlayerParticipationSerializer, TeamSerializer, 
+							TeamPlayerSerializer,MatchSerializer)
 
 import uuid
 # Create your views here.
@@ -144,3 +146,14 @@ class TeamPlayerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = TeamPlayerSerializer
 	querysett = TeamPlayer.objects.all()
 	lookup_field = 'id'
+
+
+class MatchListCreate(generics.ListCreateAPIView):
+	serializer_class = MatchSerializer
+	queryset = Match.objects.all()
+
+class MatchRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	serializer_class = MatchSerializer
+	queryset = Match.objects.all()
+	lookup_field ='id'
+

@@ -29,6 +29,8 @@ class Account(User):
 	created_date = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
+		# proxy = True
+		# auto_created = True
 		ordering = ('username',)
 		verbose_name_plural = 'Accounts'
 
@@ -44,6 +46,7 @@ class Account(User):
 			pass
 
 		
+
 
 #class tournament 
 class Tournament(models.Model):
@@ -68,11 +71,14 @@ class Tournament(models.Model):
 		return "{}".format(self.tournament_name)
 
 
+
 class Team(models.Model):
 	name = models.CharField(max_length=100)
 	captain = models.CharField(max_length=100)
 	score = models.PositiveIntegerField(default=0)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
+
+
 
 
 	class Meta:
@@ -81,16 +87,38 @@ class Team(models.Model):
 	def __str__(self):
 		return "{}".format(self.name)
 
+class Match(models.Model):
+	name = models.CharField(max_length=100)
+	ground = models.CharField(max_length=100)
+	start_date = models.DateTimeField(auto_now_add=False)
+	team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team1')
+	team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team2')
+	score1 = models.PositiveIntegerField()
+	score2 = models.PositiveIntegerField()
+	date_created = models.DateTimeField(auto_now_add=True)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='match')
+
+	class Meta:
+		verbose_name_plural='Matches'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+		
+
+
+
 class PlayerParticipation(models.Model):
-	player_name = models.CharField(max_length=100, null=True, blank=True)
-	email = models.EmailField()
-	phone_no = models.PositiveIntegerField()
-	photo = models.CharField(max_length=20000)
-	level = models.CharField(max_length=100)
-	address = models.CharField(max_length=100)
-	zip_code = models.PositiveIntegerField()
+	# player_name = models.CharField(max_length=100, null=True, blank=True)
+	# email = models.EmailField()
+	# phone_no = models.PositiveIntegerField()
+	# photo = models.CharField(max_length=20000)
+	# level = models.CharField(max_length=100)
+	# address = models.CharField(max_length=100)
+	# zip_code = models.PositiveIntegerField()
 	status = models.CharField(max_length=100)
 	date_created = models.DateTimeField(auto_now_add=True)	
+	players=models.ForeignKey(Account, on_delete=models.CASCADE, related_name='playerparticipations')
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='playerparticipations')
 
 
@@ -101,7 +129,7 @@ class PlayerParticipation(models.Model):
 		return "{}".format(self.player_name)
 
 class TeamPlayer(models.Model):
-	team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='teamplayers')
+	team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
 	playerparticipation = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, null=True, blank=True, related_name='teamplayerss')
 	
 	class Meta:
@@ -113,8 +141,8 @@ class TeamPlayer(models.Model):
 #creating the class sponsor
 class Sponsor(models.Model):
 	name = models.CharField(max_length=100)
-	photo = models.CharField(max_length=20000)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='sponsors')
+	photo = models.CharField(max_length=20000)
 
 	class Meta:
 		verbose_name_plural = 'Sponsors'
@@ -123,11 +151,11 @@ class Sponsor(models.Model):
 		return "{}".format(self.name)
 
 
-#creating the class sponsor
+#creating the class partners
 class Partner(models.Model):
 	name = models.CharField(max_length=100)
-	photo = models.CharField(max_length=20000)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='partners')
+	photo = models.CharField(max_length=20000)
 
 	class Meta:
 		verbose_name_plural = 'Partners'

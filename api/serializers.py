@@ -1,5 +1,6 @@
+
 from rest_framework import serializers
-from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, TeamPlayer,Team
+from accounts.models import Account, Match, Sponsor, Partner, Tournament, PlayerParticipation, TeamPlayer,Team,Match
 
 from django.contrib.auth.models import User
 from drf_extra_fields.fields import Base64ImageField
@@ -62,9 +63,12 @@ class PartnerSerializer(serializers.ModelSerializer):
 #playerparticipation serializer
 class PlayerParticipationSerializer(serializers.ModelSerializer):
 	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
+	players = serializers.SlugRelatedField(queryset = Account.objects.all(),slug_field = 'id')
+
 	class Meta:
 		model = PlayerParticipation
-		fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','tournament','date_created']
+		fields = ['id','status','date_created','players','tournament',]
+		# fields = ['id','player_name','email','phone_no','photo','level','address','zip_code','status','tournament','date_created']
 		depth = 1
 
 
@@ -76,19 +80,30 @@ class TeamSerializer(serializers.ModelSerializer):
 		fields = ['id','name','captain','score','tournament']
 		depth = 1
 
+
+class MatchSerializer(serializers.ModelSerializer):
+	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
+	team1 = serializers.SlugRelatedField(queryset = Team.objects.all(),slug_field = 'id')
+	team2 = serializers.SlugRelatedField(queryset = Team.objects.all(),slug_field = 'id')
+
+	class Meta:
+		model = Match
+		fields = ['id','name','ground','start_date','team1','team2','score1','score2','date_created','tournament']
+		depth = 1
+
 class TournamentSerializer(serializers.ModelSerializer):
 	#nested serializers
-	# sponsors = SponsorSerializer(many=True, read_only=True)
-	# partners = PartnerSerializer(many=True, read_only=True)
-	# playerparticipations = PlayerParticipationSerializer(many=True, read_only=True)
-	# teams = TeamSerializer(many=True, read_only=True)
+	sponsors = SponsorSerializer(many=True, read_only=True)
+	partners = PartnerSerializer(many=True, read_only=True)
+	playerparticipations = PlayerParticipationSerializer(many=True, read_only=True)
+	teams = TeamSerializer(many=True, read_only=True)
+	match = MatchSerializer(many=True, read_only=True)
 
 	#we need to add team serailizer in this  seralizers
 	class Meta:
 		model = Tournament
 		fields = ['id','banner_photo','tournament_name','start_date','participation_deadline','created_date','participation_fee',
-				'gym_name','street_address','city','state','zip_code']
-		
+				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations','teams','match']
 		depth = 1
 
 
