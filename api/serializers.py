@@ -3,7 +3,6 @@ from rest_framework import serializers
 from accounts.models import Account, Match, Sponsor, Partner, Tournament, PlayerParticipation, TeamPlayer,Team,Match
 
 from django.contrib.auth.models import User
-from drf_extra_fields.fields import Base64ImageField
 
 
 #register serializers for User using serializers
@@ -82,6 +81,8 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class MatchSerializer(serializers.ModelSerializer):
+
+	#to insert foreign key
 	tournament = serializers.SlugRelatedField(queryset = Tournament.objects.all(),slug_field = 'id')
 	team1 = serializers.SlugRelatedField(queryset = Team.objects.all(),slug_field = 'id')
 	team2 = serializers.SlugRelatedField(queryset = Team.objects.all(),slug_field = 'id')
@@ -91,6 +92,8 @@ class MatchSerializer(serializers.ModelSerializer):
 		fields = ['id','name','ground','start_date','team1','team2','score1','score2','date_created','tournament']
 		depth = 1
 
+
+#tournamentserializer
 class TournamentSerializer(serializers.ModelSerializer):
 	#nested serializers
 	sponsors = SponsorSerializer(many=True, read_only=True)
@@ -107,6 +110,7 @@ class TournamentSerializer(serializers.ModelSerializer):
 		depth = 1
 
 
+#tournamelistserializer
 class TournamentListSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Tournament
@@ -114,7 +118,6 @@ class TournamentListSerializer(serializers.ModelSerializer):
 		
 		depth = 1
 
-#team seralizers
 
 #teamplayer seralizers
 class TeamPlayerSerializer(serializers.ModelSerializer):

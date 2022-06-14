@@ -72,12 +72,12 @@ class Tournament(models.Model):
 
 
 
+#class Team
 class Team(models.Model):
 	name = models.CharField(max_length=100)
 	captain = models.CharField(max_length=100)
 	score = models.PositiveIntegerField(default=0)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
-
 
 
 
@@ -87,6 +87,7 @@ class Team(models.Model):
 	def __str__(self):
 		return "{}".format(self.name)
 
+#class Match
 class Match(models.Model):
 	name = models.CharField(max_length=100)
 	ground = models.CharField(max_length=100)
@@ -107,7 +108,7 @@ class Match(models.Model):
 		
 
 
-
+#class playerparticipation
 class PlayerParticipation(models.Model):
 	# player_name = models.CharField(max_length=100, null=True, blank=True)
 	# email = models.EmailField()
@@ -128,6 +129,7 @@ class PlayerParticipation(models.Model):
 	def __str__(self):
 		return "{}".format(self.player_name)
 
+#class teamplayer
 class TeamPlayer(models.Model):
 	team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
 	playerparticipation = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, null=True, blank=True, related_name='teamplayerss')
@@ -164,10 +166,9 @@ class Partner(models.Model):
 		return "{}".format(self.name)
 
 
-#creating the class playerparticipation
 
 
-
+#it will receive the token
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
