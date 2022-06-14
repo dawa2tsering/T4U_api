@@ -109,7 +109,6 @@ class TournamentSerializer(serializers.ModelSerializer):
 				'gym_name','street_address','city','state','zip_code','sponsors','partners','playerparticipations','teams','match']
 		depth = 1
 
-
 #tournamelistserializer
 class TournamentListSerializer(serializers.ModelSerializer):
 	class Meta:

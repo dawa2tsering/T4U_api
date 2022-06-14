@@ -65,6 +65,9 @@ urlpatterns = [
     #crud teamplayer by id
     path('api/teamplayer/update/<int:id>/', TeamPlayerRetreiveUpdateDestroy.as_view(), name='teamplayer-update'),
 
+    #api match create
     path('api/match/create/',MatchListCreate.as_view(), name='match-create'),
+
+    #api match update
     path('api/match/update/<int:id>/', MatchRetrieveUpdateDestroy.as_view(), name='match-update'),
 ]
