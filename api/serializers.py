@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from accounts.models import Account, Match, Sponsor, Partner, Tournament, PlayerParticipation, TeamPlayer,Team,Match
 
@@ -6,38 +5,28 @@ from django.contrib.auth.models import User
 
 
 #register serializers for User using serializers
-class RegisterSerializer(serializers.ModelSerializer):
-	email = serializers.CharField(max_length=100)
-	username = serializers.CharField(max_length=100)
-	password = serializers.CharField(max_length=100, write_only=True)
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ('id', 'username','email')
 
+#Register Serializers
+class RegisterSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id','username','email','password')
+		extra_kwargs = {'password':{'write_only':True}}
 
-	def validate(self, args):
-		email = args.get('email',None)
-		username = args.get('username',None)
-
-		#making the condition whether the email is already exists for not
-		if User.objects.filter(email = email).exists():
-			raise serializers.ValidationError({'email':{'Email already exists'}})
-		if User.objects.filter(username=username).exists():
-			raise serializers.ValidationError({'username':{'Username already exists'}})
-
-		return super().validate(args)
-
-
-	#creating the user model directly by making create method
-	def create(self, validated_data):
-		return User.objects.create_user(**validated_data)
+	def create(self, validate_data):
+		user = User.objects.create_user(validate_data['username'], validate_data['email'], validate_data['password'])
+		return user
 
 
 #usermodel Serializer
-class UserModelSerializer(serializers.ModelSerializer):
+class AccountModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Account
-		fields = ['id','username','password','user_type','name','email','phone_no','photo','level','address','zip_code','created_date']
+		fields = ['id','username','user_type','name','phone_no','photo','level','address','zip_code','created_date']
 		depth = 1
 
 

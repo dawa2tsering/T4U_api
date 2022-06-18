@@ -15,12 +15,10 @@ USER_TYPE = (
 	)
 
 #creating the model of user and extending the user model which includes varieties of attribute based on user model
-class Account(User):
-	#username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	#password = models.CharField(max_length=100)
+class Account(models.Model):
+	username = models.ForeignKey(User, on_delete=models.CASCADE)
 	user_type = models.CharField(max_length=100,choices=USER_TYPE)
 	name = models.CharField(max_length=100)
-	#email = models.EmailField()
 	phone_no = models.PositiveIntegerField('Phone Number')
 	photo = models.CharField(max_length=20000)
 	level = models.CharField(max_length=100, null=True, blank=True)
@@ -164,12 +162,3 @@ class Partner(models.Model):
 
 	def __str__(self):
 		return "{}".format(self.name)
-
-
-
-
-#it will receive the token
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)

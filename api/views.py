@@ -1,10 +1,12 @@
-from cgitb import lookup
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.contrib.auth import login
 
-from rest_framework import generics
+
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import generics, permissions
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import serializers
@@ -13,28 +15,40 @@ from rest_framework.pagination import PageNumberPagination
 
 from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer, Match
 
-from api.serializers import (RegisterSerializer, UserModelSerializer, SponsorSerializer, PartnerSerializer,
+from knox.auth import AuthToken
+
+from api.serializers import (RegisterSerializer, UserSerializer,AccountModelSerializer, SponsorSerializer, PartnerSerializer,
 							TournamentSerializer,TournamentListSerializer,PlayerParticipationSerializer, TeamSerializer, 
 							TeamPlayerSerializer,MatchSerializer)
 
-import uuid
+from knox.views import LoginView as KnoxLoginView
+
 # Create your views here.
 
-#registerthroughapi
-class RegistrationAPIView(generics.GenericAPIView):
+#register api
+class RegisterAPI(generics.GenericAPIView):
 	serializer_class = RegisterSerializer
 
-	def post(self, request):
+	def post(self, request, *args, **kwargs):
 		serializer = self.get_serializer(data=request.data)
-		if(serializer.is_valid()):
-			serializer.save()
-			return Response({
-					'RequestId':str(uuid.uuid4()),
-					'Message':'User Created Successfully',
-					'User':serializer.data
-				}, status=status.HTTP_201_CREATED)
-		return Response({'Errors':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+		serializer.is_valid(raise_exception=True)
+		user = serializer.save()
+		return Response({
+			'user':UserSerializer(user, context=self.get_serializer_context()).data,
+			'token':AuthToken.objects.create(user)[1]
+		})
 
+
+#login api 
+class LoginAPI(KnoxLoginView):
+	permission_classes = (permissions.AllowAny,)
+
+	def post(self, request, format=None):
+		serializer = AuthTokenSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+		user = serializer.validated_data['user']
+		login(request, user)
+		return super(LoginAPI, self).post(request, format=None)
 
 
 #paginations in api
@@ -56,14 +70,14 @@ class CustomPagination(PageNumberPagination):
 
 #list create api for UserModel
 class UserModelListCreate(generics.ListCreateAPIView):
-	serializer_class = UserModelSerializer
+	serializer_class = AccountModelSerializer
 	queryset = Account.objects.all()
 
 
 
 #to delete,update, retrieve update for user model
 class UserModelRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	serializer_class = UserModelSerializer
+	serializer_class = AccountModelSerializer
 	queryset = Account.objects.all()
 	lookup_field = 'id'
 

@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     #installed app
     'accounts',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_framework_simplejwt',
+    # 'rest_framework.authtoken',
+    # 'rest_framework_simplejwt',
     'api',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -111,9 +112,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
-        #'knox.auth.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
+        'knox.auth.TokenAuthentication'
     ]
 }
 
@@ -136,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODELS = 'accounts.Account'
+# AUTH_USER_MODELS = 'accounts.Account'
 
 
 #media is used for images

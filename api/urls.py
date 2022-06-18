@@ -1,13 +1,17 @@
 from django.urls import path
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from api.views import (RegistrationAPIView,UserModelListCreate, UserModelRetreiveUpdateDestroy, 
+from api.views import (UserModelListCreate, UserModelRetreiveUpdateDestroy, 
                     SponsorListCreate,SponsorRetreiveUpdateDestroy, PartnerListCreate,PartnerRetreiveUpdateDestroy,
                     TournamentListCreate,GetTournamentList,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
                     PlayerParticipationUpdateRetreiveDestroy,TeamListCreate,TeamUpdateRetreiveUpdateDestroy,
-                    TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy,MatchListCreate,MatchRetrieveUpdateDestroy)
-from api.serializers import UserModelSerializer
+                    TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy,MatchListCreate,MatchRetrieveUpdateDestroy,
+                    RegisterAPI, LoginAPI)
+
+from api.serializers import AccountModelSerializer
+
+from knox import views as knox_views
+
 
 from .import views
 
@@ -18,13 +22,13 @@ app_name = 'api'
 
 #url for api
 urlpatterns = [
-    #register user(Guest and player)
-	path('api/register/', RegistrationAPIView.as_view(), name='auth-register'),
-    path('api/login/', TokenObtainPairView.as_view(), name='login'),
-    path('api/refresh-token/', TokenRefreshView.as_view(), name='refresh-token'),
 
+    #register api
+    path('api/register/', RegisterAPI.as_view(), name='register-api'),
 
-    
+    path('api/login/', LoginAPI.as_view(), name='login'),
+    path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
+    path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
     #add and get registered user
     path('api/register/usermodel/',UserModelListCreate.as_view(), name='register-usermodel'),
     #crud registered user by id
