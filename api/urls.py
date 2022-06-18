@@ -6,7 +6,7 @@ from api.views import (UserModelListCreate, UserModelRetreiveUpdateDestroy,
                     TournamentListCreate,GetTournamentList,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
                     PlayerParticipationUpdateRetreiveDestroy,TeamListCreate,TeamUpdateRetreiveUpdateDestroy,
                     TeamPlayerListCreate,TeamPlayerRetreiveUpdateDestroy,MatchListCreate,MatchRetrieveUpdateDestroy,
-                    RegisterAPI, LoginAPI)
+                    )
 
 from api.serializers import AccountModelSerializer
 
@@ -24,15 +24,17 @@ app_name = 'api'
 urlpatterns = [
 
     #register api
-    path('api/register/', RegisterAPI.as_view(), name='register-api'),
+    path('api/login/', views.login_api, name='login-api'),
+    path('api/userdata/', views.get_user_data, name='user-data'),
+    path('api/register/', views.register_view, name='register'),
 
-    path('api/login/', LoginAPI.as_view(), name='login'),
-    path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
-    path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
+    path('api/logout/', knox_views.LogoutView.as_view),
+    path('api/logoutall/', knox_views.LogoutAllView.as_view())
+
     #add and get registered user
-    path('api/register/usermodel/',UserModelListCreate.as_view(), name='register-usermodel'),
+    path('api/register/accountmodel/',UserModelListCreate.as_view(), name='register-usermodel'),
     #crud registered user by id
-    path('api/list/usermodel/<int:id>/', UserModelRetreiveUpdateDestroy.as_view(), name='list-usermodel'),
+    path('api/list/accountmodel/<int:id>/', UserModelRetreiveUpdateDestroy.as_view(), name='list-usermodel'),
 
 
     #add and get tournament api url for tournament detail

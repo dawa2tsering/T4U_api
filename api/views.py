@@ -17,39 +17,62 @@ from accounts.models import Account, Sponsor, Partner, Tournament, PlayerPartici
 
 from knox.auth import AuthToken
 
-from api.serializers import (RegisterSerializer, UserSerializer,AccountModelSerializer, SponsorSerializer, PartnerSerializer,
+from api.serializers import (AccountModelSerializer, SponsorSerializer, PartnerSerializer,
 							TournamentSerializer,TournamentListSerializer,PlayerParticipationSerializer, TeamSerializer, 
-							TeamPlayerSerializer,MatchSerializer)
+							TeamPlayerSerializer,MatchSerializer, RegisterSerializer)
 
 from knox.views import LoginView as KnoxLoginView
 
 # Create your views here.
+@api_view(['POST'])
+def login_api(request):
+	serializer = AuthTokenSerializer(data=request.data)
+	serializer.is_valid(raise_exception=True)
+	user = serializer.validated_data['user']
+	_, token = AuthToken.objects.create(user)
 
-#register api
-class RegisterAPI(generics.GenericAPIView):
-	serializer_class = RegisterSerializer
-
-	def post(self, request, *args, **kwargs):
-		serializer = self.get_serializer(data=request.data)
-		serializer.is_valid(raise_exception=True)
-		user = serializer.save()
-		return Response({
-			'user':UserSerializer(user, context=self.get_serializer_context()).data,
-			'token':AuthToken.objects.create(user)[1]
+	return Response({
+			'user_info':{
+				'id':user.id,
+				'username':user.username,
+				'email':user.email,
+			},
+			'token':token
 		})
 
 
-#login api 
-class LoginAPI(KnoxLoginView):
-	permission_classes = (permissions.AllowAny,)
+@api_view(['GET'])
+def get_user_data(request):
+	user = request.user
 
-	def post(self, request, format=None):
-		serializer = AuthTokenSerializer(data=request.data)
-		serializer.is_valid(raise_exception=True)
-		user = serializer.validated_data['user']
+	if user.is_authenticated:
+		return Response({
+				'user_info':{
+					'id':user.id,
+					'username':user.username,
+					'email':user.email
+				},
+			})
+	return Response({'error':'not_authenticated'}, status=400)
 
-		login(request, user)
-		return super(LoginAPI, self).post(request, format=None)
+
+@api_view(['POST'])
+def register_view(request):
+	serializer = RegisterSerializer(data=request.data)
+	if serializer.is_valid(raise_exception=True):
+		user = serializer.save()
+		_, token = AuthToken.objects.create(user)
+
+		return Response({
+				'user_info':{
+					'id':user.id,
+					'username':user.username,
+					'email':user.email
+
+				},
+				'token':token
+			})
+
 
 
 #paginations in api
