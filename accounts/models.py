@@ -35,6 +35,12 @@ class Account(models.Model):
 	def __str__(self):
 		return "{} : {}".format(self.username, self.name)
 
+	def check_username(self):
+		try:
+			if self.username == username:
+				return Response('Username already exists')
+		except:
+			pass
 
 	def check_user_type_images(self):
 		try:

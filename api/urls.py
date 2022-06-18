@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/register/', views.register_view, name='register'),
 
     path('api/logout/', knox_views.LogoutView.as_view),
-    path('api/logoutall/', knox_views.LogoutAllView.as_view())
+    path('api/logoutall/', knox_views.LogoutAllView.as_view()),
 
     #add and get registered user
     path('api/register/accountmodel/',UserModelListCreate.as_view(), name='register-usermodel'),
