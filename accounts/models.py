@@ -47,6 +47,7 @@ class Account(models.Model):
 		
 
 
+
 #class tournament 
 class Tournament(models.Model):
 	banner_photo = models.CharField(max_length=20000)
@@ -70,44 +71,6 @@ class Tournament(models.Model):
 		return "{}".format(self.tournament_name)
 
 
-
-#class Team
-class Team(models.Model):
-	name = models.CharField(max_length=100)
-	captain = models.CharField(max_length=100)
-	score = models.PositiveIntegerField(default=0)
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
-
-
-
-	class Meta:
-		verbose_name_plural = 'Teams'
-
-	def __str__(self):
-		return "{}".format(self.name)
-
-#class Match
-class Match(models.Model):
-	name = models.CharField(max_length=100)
-	ground = models.CharField(max_length=100)
-	start_date = models.DateTimeField(auto_now_add=False)
-	team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team1')
-	team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team2')
-	score1 = models.PositiveIntegerField()
-	score2 = models.PositiveIntegerField()
-	date_created = models.DateTimeField(auto_now_add=True)
-	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='match')
-
-	class Meta:
-		verbose_name_plural='Matches'
-
-	def __str__(self):
-		return "{}".format(self.name)
-
-		
-
-
-#class playerparticipation
 class PlayerParticipation(models.Model):
 	status = models.CharField(max_length=100)
 	date_created = models.DateTimeField(auto_now_add=True)	
@@ -119,18 +82,79 @@ class PlayerParticipation(models.Model):
 		verbose_name_plural = 'PlayerParticipations'
 
 	def __str__(self):
-		return "{}".format(self.player_name)
+		return "{}".format(self.players)
 
-#class teamplayer
+
+
+class Team(models.Model):
+	name = models.CharField(max_length=100)
+	captain = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
+	score = models.PositiveIntegerField(default=0)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
+
+	class Meta:
+		verbose_name_plural = 'Teams'
+
+	def __str__(self):
+		return "{}".format(self.id)
+
+class Match(models.Model):
+	name = models.CharField(max_length=100)
+	ground = models.CharField(max_length=100)
+	start_date = models.DateTimeField(auto_now_add=False)
+	team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='match_team1')
+	team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='match_team2')
+	score1 = models.PositiveIntegerField()
+	score2 = models.PositiveIntegerField()
+	date_created = models.DateTimeField(auto_now_add=True)
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='match')
+
+	class Meta:
+		verbose_name_plural='Matches'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+
+
 class TeamPlayer(models.Model):
-	team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='teams')
-	playerparticipation = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, null=True, blank=True, related_name='teamplayerss')
-	
+	team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='team')
+	playerparticipation = models.ForeignKey(PlayerParticipation, on_delete=models.CASCADE, null=True, blank=True, related_name='playerparticipation')
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='tournament')
+
 	class Meta:
 		verbose_name_plural = 'TeamPlayers'
 
 	def __str__(self):
-		return "{}".format(self.team)
+		return "{}".format(self.id)
+
+class Team1(models.Model):
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='team1_tournament')
+	match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='team1_match')
+	team1 = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='team1')
+	player1 = models.ForeignKey(TeamPlayer, on_delete=models.CASCADE, null=True, blank=True, related_name='player1')
+	player2 = models.ForeignKey(TeamPlayer, on_delete=models.CASCADE, null=True, blank=True, related_name='player2')
+	class Meta:
+		verbose_name_plural = 'Team1'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+class Team2(models.Model):
+	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='team2_tournament')
+	match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='team2_match')
+	team2 = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='team2')
+	player1 = models.ForeignKey(TeamPlayer, on_delete=models.CASCADE, null=True, blank=True, related_name='player1s')
+	player2 = models.ForeignKey(TeamPlayer, on_delete=models.CASCADE, null=True, blank=True, related_name='player2s')
+	class Meta:
+		verbose_name_plural = 'Team2'
+
+	def __str__(self):
+		return "{}".format(self.name)
+
+
+
+
 
 #creating the class sponsor
 class Sponsor(models.Model):
@@ -158,3 +182,7 @@ class Partner(models.Model):
 
 	def __str__(self):
 		return "{}".format(self.name)
+
+
+
+

@@ -13,13 +13,13 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 
-from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer, Match
+from accounts.models import Account, Sponsor, Partner, Tournament, PlayerParticipation, Team, TeamPlayer, Match,Team1,Team2
 
 from knox.auth import AuthToken
 
 from api.serializers import (AccountModelSerializer,UserSerializer,SponsorSerializer, PartnerSerializer,
 							TournamentSerializer,TournamentListSerializer,PlayerParticipationSerializer, TeamSerializer, 
-							TeamPlayerSerializer,MatchSerializer, RegisterSerializer, LoginUserSerializer)
+							TeamPlayerSerializer,MatchSerializer, RegisterSerializer, LoginUserSerializer,TeamListSerializer,Team1Serializer,Team2Serializer)
 
 from knox.views import LoginView as KnoxLoginView
 
@@ -93,14 +93,14 @@ class UserModelRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 
 #sponsor crud in api
-class SponsorListCreate(generics.ListCreateAPIView): 
-	permission_classes = [permissions.IsAuthenticated]
+class SponsorListCreate(generics.ListCreateAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = SponsorSerializer
 	queryset = Sponsor.objects.all()
 	#pagination_class = CustomPagination
 
 class SponsorRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = SponsorSerializer
 	queryset = Sponsor.objects.all()
 	lookup_field = 'id'
@@ -109,13 +109,13 @@ class SponsorRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 #partner crud in api
 
 class PartnerListCreate(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = PartnerSerializer
 	queryset = Partner.objects.all()
 	#pagination_class = CustomPagination
 
 class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = PartnerSerializer
 	queryset = Partner.objects.all()
 	lookup_field = 'id'
@@ -123,7 +123,7 @@ class PartnerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 #add-tournament crud api url
 class TournamentListCreate(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TournamentSerializer
 	queryset = Tournament.objects.all()
 	pagination_class = CustomPagination
@@ -131,14 +131,14 @@ class TournamentListCreate(generics.ListCreateAPIView):
 
 
 class GetTournamentList(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TournamentListSerializer
 	queryset = Tournament.objects.all()
 	pagination_class = CustomPagination
 
 
 class TournamentUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TournamentSerializer
 	queryset = Tournament.objects.all()
 	lookup_field = 'id'
@@ -146,52 +146,89 @@ class TournamentUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 #playerparticipation crudapi url
 class PlayerParticipationListCreate(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = PlayerParticipationSerializer
 	queryset = PlayerParticipation.objects.all()
 	pagination_class = CustomPagination
 
 class PlayerParticipationUpdateRetreiveDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = PlayerParticipationSerializer
 	queryset = PlayerParticipation.objects.all()
 	lookup_field = 'id'
 
 
 #Team serializer
-class TeamListCreate(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+class TeamCreate(generics.ListCreateAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TeamSerializer
 	queryset = Team.objects.all()
 
 
 class TeamUpdateRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TeamSerializer
 	queryset = Team.objects.all()
 	lookup_field = 'id'
 
 
+
+class TeamListCreate(generics.ListCreateAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
+	serializer_class = TeamListSerializer
+	queryset = Team.objects.all()
+
+
+class TeamListUpdateRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
+	serializer_class = TeamListSerializer
+	queryset = Team.objects.all()
+	lookup_field = 'id'
+
+
 class TeamPlayerListCreate(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TeamPlayerSerializer
 	queryset = TeamPlayer.objects.all()
 
 class TeamPlayerRetreiveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = TeamPlayerSerializer
 	querysett = TeamPlayer.objects.all()
 	lookup_field = 'id'
 
 
 class MatchListCreate(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = MatchSerializer
 	queryset = Match.objects.all()
 
 class MatchRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	serializer_class = MatchSerializer
 	queryset = Match.objects.all()
 	lookup_field ='id'
 
+
+class Team1ListCreate(generics.ListCreateAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
+	serializer_class = Team1Serializer
+	queryset = Team1.objects.all()
+
+class Team1RetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
+	serializer_class = Team1Serializer
+	queryset = Team1.objects.all()
+	lookup_field ='id'
+
+
+class Team2ListCreate(generics.ListCreateAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
+	serializer_class = Team2Serializer
+	queryset = Team2.objects.all()
+
+class Team2RetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+	# permission_classes = [permissions.IsAuthenticated]
+	serializer_class = Team2Serializer
+	queryset = Team2.objects.all()
+	lookup_field ='id'
