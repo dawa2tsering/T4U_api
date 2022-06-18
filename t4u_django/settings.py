@@ -25,7 +25,7 @@ SECRET_KEY = '(jm*33kv-*b2ux)z=1hxp$+n0wiw%q8ue!-g*=jt#7npyz)pdo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*",]
 
 
 # Application definition

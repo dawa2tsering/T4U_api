@@ -109,13 +109,6 @@ class Match(models.Model):
 
 #class playerparticipation
 class PlayerParticipation(models.Model):
-	# player_name = models.CharField(max_length=100, null=True, blank=True)
-	# email = models.EmailField()
-	# phone_no = models.PositiveIntegerField()
-	# photo = models.CharField(max_length=20000)
-	# level = models.CharField(max_length=100)
-	# address = models.CharField(max_length=100)
-	# zip_code = models.PositiveIntegerField()
 	status = models.CharField(max_length=100)
 	date_created = models.DateTimeField(auto_now_add=True)	
 	players=models.ForeignKey(Account, on_delete=models.CASCADE, related_name='playerparticipations')
@@ -142,6 +135,7 @@ class TeamPlayer(models.Model):
 #creating the class sponsor
 class Sponsor(models.Model):
 	name = models.CharField(max_length=100)
+	status = models.CharField(max_length=100)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='sponsors')
 	photo = models.CharField(max_length=20000)
 
@@ -155,6 +149,7 @@ class Sponsor(models.Model):
 #creating the class partners
 class Partner(models.Model):
 	name = models.CharField(max_length=100)
+	status = models.CharField(max_length=100)
 	tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='partners')
 	photo = models.CharField(max_length=20000)
 
