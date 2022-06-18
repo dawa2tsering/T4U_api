@@ -41,6 +41,7 @@ class LoginUserSerializer(serializers.Serializer):
 
 #usermodel Serializer
 class AccountModelSerializer(serializers.ModelSerializer):
+	username = serializers.SlugRelatedField(queryset = User.objects.all(),slug_field = 'id')
 	class Meta:
 		model = Account
 		fields = ['id','username','user_type','name','phone_no','photo','level','address','zip_code','created_date']
