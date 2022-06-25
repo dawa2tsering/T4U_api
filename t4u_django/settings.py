@@ -25,7 +25,7 @@ SECRET_KEY = '(jm*33kv-*b2ux)z=1hxp$+n0wiw%q8ue!-g*=jt#7npyz)pdo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*",]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,11 +82,22 @@ WSGI_APPLICATION = 't4u_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 't4udb',
+       'USER': 't4uuser',
+       'PASSWORD': 't4upassword#123',
+       'HOST': 'localhost',
+       'PORT': '5432',
+   }
 }
 
 

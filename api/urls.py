@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from api.views import (UserModelListCreate, UserModelRetreiveUpdateDestroy, 
+from api.views import (UserModelListCreate, UserModelRetreiveUpdateDestroy,UserModelThroughFkRetreiveUpdateDestroy, 
                     SponsorListCreate,SponsorRetreiveUpdateDestroy, PartnerListCreate,PartnerRetreiveUpdateDestroy,
                     TournamentListCreate,GetTournamentList,TournamentUpdateRetreiveDestroy,PlayerParticipationListCreate,
                     PlayerParticipationUpdateRetreiveDestroy,TeamListCreate,TeamUpdateRetreiveUpdateDestroy,
@@ -33,6 +33,8 @@ urlpatterns = [
     path('api/register/accountmodel/',UserModelListCreate.as_view(), name='register-usermodel'),
     #crud registered user by id
     path('api/list/accountmodel/<int:id>/', UserModelRetreiveUpdateDestroy.as_view(), name='list-usermodel'),
+     #crud registered user by username
+    path('api/list/accountmodel/fk/<int:username>/', UserModelThroughFkRetreiveUpdateDestroy.as_view(), name='list-usermodelthroughfk'),
 
 
     #add and get tournament api url for tournament detail
