@@ -11,7 +11,8 @@ from rest_framework.authtoken.models import Token
 #global variable for choices
 USER_TYPE = (
 		('Guest','Guest'),
-		('Player','Player')
+		('Player','Player'),
+		('Admin','Admin')
 	)
 
 #creating the model of user and extending the user model which includes varieties of attribute based on user model
